@@ -131,9 +131,9 @@ form.addEventListener('submit', async (e) => {
   data['_subject'] = 'New Study Group Registration: ' + fd.get('Full Name');
   data['_template'] = 'table';
   data['_captcha'] = 'false';
-  btn.disabled = true; btn.textContent = 'Submitting…';
+  btn.disabled = true; btn.textContent = 'Submitting… please wait (up to a minute)';
   const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), 20000);
+  const timer = setTimeout(() => ctrl.abort(), 120000);
   try {
     const r = await fetch('https://formsubmit.co/ajax/justicennyiimock@gmail.com', {
       method: 'POST',
