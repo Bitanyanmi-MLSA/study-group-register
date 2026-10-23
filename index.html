@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Register – Student Ambassadors Study Group</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Segoe UI", Arial, sans-serif; background: #eef3f9; color: #0b1f3a; }
+  header { background: linear-gradient(160deg, #0b1f3a, #0078d4); color: #fff; padding: 28px 20px; text-align: center; }
+  header h1 { margin: 0 0 6px; font-size: 1.6rem; }
+  header p { margin: 0; opacity: .9; }
+  .badge { display: inline-block; margin-top: 12px; background: #ffb900; color: #0b1f3a; padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: .9rem; }
+  main { max-width: 640px; margin: -18px auto 40px; padding: 0 16px; }
+  form { background: #fff; border-radius: 14px; padding: 24px; box-shadow: 0 6px 24px rgba(0,0,0,.12); }
+  label { display: block; font-weight: 600; margin: 16px 0 6px; font-size: .95rem; }
+  label small { font-weight: 400; color: #5b6b80; }
+  input, select, textarea { width: 100%; padding: 11px 12px; border: 1px solid #c3cfdd; border-radius: 8px; font: inherit; background: #fafcff; }
+  input:focus, select:focus, textarea:focus { outline: 2px solid #0078d4; border-color: #0078d4; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  fieldset { border: 1px solid #c3cfdd; border-radius: 8px; margin-top: 16px; padding: 8px 14px 12px; }
+  legend { font-weight: 600; padding: 0 6px; font-size: .95rem; }
+  fieldset label { display: flex; gap: 8px; align-items: center; font-weight: 400; margin: 8px 0 0; }
+  fieldset input { width: auto; }
+  button { margin-top: 22px; width: 100%; padding: 14px; border: 0; border-radius: 10px; background: #0078d4; color: #fff; font-size: 1.05rem; font-weight: 700; cursor: pointer; }
+  button:hover { background: #005fa8; }
+  button:disabled { opacity: .6; cursor: wait; }
+  .msg { margin-top: 16px; padding: 12px; border-radius: 8px; display: none; font-weight: 600; }
+  .ok { background: #e3f7e8; color: #146c2e; }
+  .err { background: #fde8e8; color: #9b1c1c; }
+  .hp { position: absolute; left: -9999px; }
+  footer { text-align: center; font-size: .85rem; color: #5b6b80; padding-bottom: 30px; }
+  @media (max-width: 520px) { .row { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Student Ambassadors Study Group</h1>
+  <p>Microsoft Certification Campaign • Tamale Technical University</p>
+  <span class="badge">In-person kick-off: Fri, 27 Nov 2026 • 9:00 AM • ICT Conference Room</span>
+</header>
+
+<main>
+<form id="form" novalidate>
+  <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off">
+
+  <label for="name">Full name *</label>
+  <input id="name" name="Full Name" required autocomplete="name">
+
+  <div class="row">
+    <div>
+      <label for="email">Email address *</label>
+      <input id="email" type="email" name="email" required autocomplete="email">
+    </div>
+    <div>
+      <label for="phone">Phone / WhatsApp *</label>
+      <input id="phone" type="tel" name="Phone" required autocomplete="tel" placeholder="+233...">
+    </div>
+  </div>
+
+  <div class="row">
+    <div>
+      <label for="program">Programme / Department *</label>
+      <input id="program" name="Programme" required>
+    </div>
+    <div>
+      <label for="level">Level / Year *</label>
+      <select id="level" name="Level" required>
+        <option value="">Select…</option>
+        <option>Level 100</option><option>Level 200</option><option>Level 300</option><option>Level 400</option><option>Postgraduate</option><option>Staff / Other</option>
+      </select>
+    </div>
+  </div>
+
+  <label for="index">Student ID / Index number <small>(optional)</small></label>
+  <input id="index" name="Student ID">
+
+  <fieldset>
+    <legend>Exam(s) you want to take *</legend>
+    <label><input type="checkbox" name="Exams" value="AZ-900 Azure Fundamentals"> AZ-900 Azure Fundamentals</label>
+    <label><input type="checkbox" name="Exams" value="AI-900 AI Fundamentals"> AI-900 AI Fundamentals</label>
+    <label><input type="checkbox" name="Exams" value="DP-900 Data Fundamentals"> DP-900 Data Fundamentals</label>
+    <label><input type="checkbox" name="Exams" value="SC-900 Security Fundamentals"> SC-900 Security, Compliance &amp; Identity</label>
+    <label><input type="checkbox" name="Exams" value="PL-900 Power Platform"> PL-900 Power Platform Fundamentals</label>
+    <label><input type="checkbox" name="Exams" value="Other / Not sure yet"> Other / not sure yet</label>
+  </fieldset>
+
+  <label for="exp">Experience level *</label>
+  <select id="exp" name="Experience" required>
+    <option value="">Select…</option>
+    <option>Complete beginner</option><option>Some experience</option><option>Already studying for an exam</option>
+  </select>
+
+  <fieldset>
+    <legend>Will you attend the in-person meeting on 27 Nov 2026? *</legend>
+    <label><input type="radio" name="Attending" value="Yes" required> Yes, I will be there</label>
+    <label><input type="radio" name="Attending" value="Maybe"> Maybe</label>
+    <label><input type="radio" name="Attending" value="No, join online"> No, I'd prefer to join online</label>
+  </fieldset>
+
+  <label for="notes">Anything else? <small>(questions, goals)</small></label>
+  <textarea id="notes" name="Notes" rows="3"></textarea>
+
+  <button id="btn" type="submit">Register Now</button>
+  <div id="ok" class="msg ok">🎉 Thank you! Your registration has been received. See you on 27th November!</div>
+  <div id="err" class="msg err"></div>
+</form>
+</main>
+<footer>Questions? Call / WhatsApp +233 55 057 2791</footer>
+
+<script>
+const form = document.getElementById('form');
+const ok = document.getElementById('ok');
+const err = document.getElementById('err');
+const btn = document.getElementById('btn');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  ok.style.display = err.style.display = 'none';
+  if (!form.checkValidity() || !form.querySelector('input[name="Exams"]:checked')) {
+    err.textContent = 'Please fill in all required fields and pick at least one exam.';
+    err.style.display = 'block';
+    form.reportValidity();
+    return;
+  }
+  const data = new FormData(form);
+  const exams = data.getAll('Exams').join(', ');
+  data.delete('Exams');
+  data.append('Exams', exams);
+  data.append('_subject', 'New Study Group Registration: ' + data.get('Full Name'));
+  data.append('_template', 'table');
+  data.append('_captcha', 'false');
+  btn.disabled = true; btn.textContent = 'Submitting…';
+  try {
+    const r = await fetch('https://formsubmit.co/ajax/justicennyiimock@gmail.com', {
+      method: 'POST', headers: { 'Accept': 'application/json' }, body: data
+    });
+    const j = await r.json();
+    if (r.ok && String(j.success) === 'true') {
+      form.reset(); ok.style.display = 'block';
+      ok.scrollIntoView({ behavior: 'smooth' });
+    } else { throw new Error(j.message || 'Submission failed'); }
+  } catch (x) {
+    err.textContent = 'Could not submit. Please try again or WhatsApp +233 55 057 2791.';
+    err.style.display = 'block';
+  }
+  btn.disabled = false; btn.textContent = 'Register Now';
+});
+</script>
+</body>
+</html>
