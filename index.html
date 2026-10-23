@@ -123,18 +123,25 @@ form.addEventListener('submit', async (e) => {
     form.reportValidity();
     return;
   }
-  const data = new FormData(form);
-  const exams = data.getAll('Exams').join(', ');
-  data.delete('Exams');
-  data.append('Exams', exams);
-  data.append('_subject', 'New Study Group Registration: ' + data.get('Full Name'));
-  data.append('_template', 'table');
-  data.append('_captcha', 'false');
+  const fd = new FormData(form);
+  const data = {};
+  for (const [k, v] of fd.entries()) { if (k !== 'Exams' && k !== '_honey') data[k] = v; }
+  data['Exams'] = fd.getAll('Exams').join(', ');
+  data['_honey'] = fd.get('_honey') || '';
+  data['_subject'] = 'New Study Group Registration: ' + fd.get('Full Name');
+  data['_template'] = 'table';
+  data['_captcha'] = 'false';
   btn.disabled = true; btn.textContent = 'Submitting…';
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 20000);
   try {
     const r = await fetch('https://formsubmit.co/ajax/justicennyiimock@gmail.com', {
-      method: 'POST', headers: { 'Accept': 'application/json' }, body: data
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(data),
+      signal: ctrl.signal
     });
+    clearTimeout(timer);
     const j = await r.json();
     if (r.ok && String(j.success) === 'true') {
       form.reset(); ok.style.display = 'block';
