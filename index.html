@@ -41,7 +41,12 @@
 </header>
 
 <main>
-<form id="form" novalidate>
+<form id="form" action="https://formsubmit.co/justicennyiimock@gmail.com" method="POST">
+  <input type="hidden" name="_next" value="https://bitanyanmi-mlsa.github.io/study-group-register/thanks.html">
+  <input type="hidden" name="_captcha" value="false">
+  <input type="hidden" name="_template" value="table">
+  <input type="hidden" name="_subject" id="subject" value="New Study Group Registration">
+  <input type="hidden" name="Exams" id="exams">
   <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off">
 
   <label for="name">Full name *</label>
@@ -77,12 +82,12 @@
 
   <fieldset>
     <legend>Exam(s) you want to take *</legend>
-    <label><input type="checkbox" name="Exams" value="AZ-900 Azure Fundamentals"> AZ-900 Azure Fundamentals</label>
-    <label><input type="checkbox" name="Exams" value="AI-900 AI Fundamentals"> AI-900 AI Fundamentals</label>
-    <label><input type="checkbox" name="Exams" value="DP-900 Data Fundamentals"> DP-900 Data Fundamentals</label>
-    <label><input type="checkbox" name="Exams" value="SC-900 Security Fundamentals"> SC-900 Security, Compliance &amp; Identity</label>
-    <label><input type="checkbox" name="Exams" value="PL-900 Power Platform"> PL-900 Power Platform Fundamentals</label>
-    <label><input type="checkbox" name="Exams" value="Other / Not sure yet"> Other / not sure yet</label>
+    <label><input type="checkbox" data-exam value="AZ-900 Azure Fundamentals"> AZ-900 Azure Fundamentals</label>
+    <label><input type="checkbox" data-exam value="AI-900 AI Fundamentals"> AI-900 AI Fundamentals</label>
+    <label><input type="checkbox" data-exam value="DP-900 Data Fundamentals"> DP-900 Data Fundamentals</label>
+    <label><input type="checkbox" data-exam value="SC-900 Security Fundamentals"> SC-900 Security, Compliance &amp; Identity</label>
+    <label><input type="checkbox" data-exam value="PL-900 Power Platform"> PL-900 Power Platform Fundamentals</label>
+    <label><input type="checkbox" data-exam value="Other / Not sure yet"> Other / not sure yet</label>
   </fieldset>
 
   <label for="exp">Experience level *</label>
@@ -102,7 +107,7 @@
   <textarea id="notes" name="Notes" rows="3"></textarea>
 
   <button id="btn" type="submit">Register Now</button>
-  <div id="ok" class="msg ok">🎉 Thank you! Your registration has been received. See you on 27th November!</div>
+  
   <div id="err" class="msg err"></div>
 </form>
 </main>
@@ -110,48 +115,22 @@
 
 <script>
 const form = document.getElementById('form');
-const ok = document.getElementById('ok');
 const err = document.getElementById('err');
 const btn = document.getElementById('btn');
 
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  ok.style.display = err.style.display = 'none';
-  if (!form.checkValidity() || !form.querySelector('input[name="Exams"]:checked')) {
+form.addEventListener('submit', (e) => {
+  err.style.display = 'none';
+  const picked = [...form.querySelectorAll('input[data-exam]:checked')].map(c => c.value);
+  if (!form.checkValidity() || !picked.length) {
+    e.preventDefault();
     err.textContent = 'Please fill in all required fields and pick at least one exam.';
     err.style.display = 'block';
     form.reportValidity();
     return;
   }
-  const fd = new FormData(form);
-  const data = {};
-  for (const [k, v] of fd.entries()) { if (k !== 'Exams' && k !== '_honey') data[k] = v; }
-  data['Exams'] = fd.getAll('Exams').join(', ');
-  data['_honey'] = fd.get('_honey') || '';
-  data['_subject'] = 'New Study Group Registration: ' + fd.get('Full Name');
-  data['_template'] = 'table';
-  data['_captcha'] = 'false';
-  btn.disabled = true; btn.textContent = 'Submitting… please wait (up to a minute)';
-  const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), 120000);
-  try {
-    const r = await fetch('https://formsubmit.co/ajax/justicennyiimock@gmail.com', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(data),
-      signal: ctrl.signal
-    });
-    clearTimeout(timer);
-    const j = await r.json();
-    if (r.ok && String(j.success) === 'true') {
-      form.reset(); ok.style.display = 'block';
-      ok.scrollIntoView({ behavior: 'smooth' });
-    } else { throw new Error(j.message || 'Submission failed'); }
-  } catch (x) {
-    err.textContent = 'Could not submit. Please try again or WhatsApp +233 55 057 2791.';
-    err.style.display = 'block';
-  }
-  btn.disabled = false; btn.textContent = 'Register Now';
+  document.getElementById('exams').value = picked.join(', ');
+  document.getElementById('subject').value = 'New Study Group Registration: ' + document.getElementById('name').value;
+  btn.disabled = true; btn.textContent = 'Submitting…';
 });
 </script>
 </body>
